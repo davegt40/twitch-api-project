@@ -1,11 +1,5 @@
 // Default Twitch users to query
-var twitchUsers = ['summit1g', 'shroud', 'freecodecamp',
-                    'GeekandSundry', 'FeliciaDay'];
 var channelData = [];
-
-function addUser(username) {
-  twitchUsers.push(username);
-}
 
 function createAlert(username) {
   var alertDiv = document.createElement('div');
@@ -16,22 +10,35 @@ function createAlert(username) {
   document.getElementById('user-input-group').append(alertDiv);
 }
 
-function getUserData() {
-  for (var i = 0; i < twitchUsers.length; i++) {
+function getUserData(users) {
+  for (var i = 0; i < users.length; i++) {
     var channelURL = 'https://wind-bow.gomix.me/twitch-api/channels/';
-    channelURL = channelURL + twitchUsers[i]+ '?callback=?';
+    channelURL += users[i] + '?callback=?';
 
+    // Get Channel data for usernames
     $.getJSON(channelURL, function(data) {
       var channel = {
-        "display_name": data.display_name,
-        "game": data.game,
-        "status": data.status,
-        "url": data.url
+        'display_name': data.display_name,
+        'game': data.game,
+        'status': data.status,
+        'url': data.url,
+        'stream_type': '',
+        'stream_preview_url': ''
       }
+
+      setTimeout(function() {
+        console.log(users);
+        var streamURL = 'https://wind-bow.gomix.me/twitch-api/streams/';
+        streamURL += users[i] + '?callback=?';
+        $.getJSON(streamURL, function(data) {
+          console.log(data);
+          channel.stream_type = data.stream_type;
+        });
+      }, 500);
+
       channelData.push(channel);
     });
   }
-  console.log(channelData);
 }
 
 function buildUserList() {
@@ -47,9 +54,14 @@ function buildUserList() {
       var gameCell = document.createElement('td');
       gameCell.append(channelData[i].game);
       tableRow.append(gameCell);
+
       var statusCell = document.createElement('td');
       statusCell.append(channelData[i].status);
       tableRow.append(statusCell);
+
+      var streamTypeCell = document.createElement('td');
+      streamTypeCell.append(channelData[i].stream_type);
+      tableRow.append(streamTypeCell);
 
       var watchCell = document.createElement('td');
       var watchLink = document.createElement('a');
@@ -57,19 +69,22 @@ function buildUserList() {
       watchLink.append('Watch');
       watchCell.append(watchLink);
       tableRow.append(watchCell);
-      
+
       document.getElementById('user-list').append(tableRow);
     }
   }, 500);
 }
 
 $(document).ready(function() {
+  var twitchUsers = ['summit1g', 'shroud', 'freecodecamp',
+                      'GeekandSundry', 'FeliciaDay'];
+
   $('#add-user').on('click', function() {
-    addUser(document.getElementById('username').value);
+    twitchUsers.push(document.getElementById('username').value);
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
   });
 
-  getUserData();
+  getUserData(twitchUsers);
   buildUserList();
 });
