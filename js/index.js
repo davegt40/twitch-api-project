@@ -1,6 +1,6 @@
 // Default Twitch users to query
 var twitchUsers = ['summit1g', 'shroud', 'freecodecamp',
-                    'GeekandSundry', 'FeliciaDay'];
+                    'GeekandSundry', 'FeliciaDay', 'ESEA'];
 
 var twitchData = [];
 
