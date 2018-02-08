@@ -58,28 +58,27 @@ function getChannelInfo() {
   });
 }
 
-function buildUserList() {
+function buildUserList(usersToBuild) {
   // wait for objects to be built
   setTimeout(function() {
-    for (var i = 0; i < twitchData.length; i++) {
+    for (var i = 0; i < usersToBuild.length; i++) {
       var tableRow = document.createElement('tr');
       var usernameCell = document.createElement('td');
-      var usernameText = twitchData[i].display_name;
+      var usernameText = usersToBuild[i].display_name;
       usernameCell.append(usernameText);
       tableRow.append(usernameCell);
 
       var gameCell = document.createElement('td');
-      gameCell.append(twitchData[i].game);
+      gameCell.append(usersToBuild[i].game);
       tableRow.append(gameCell);
 
       var statusCell = document.createElement('td');
-      statusCell.append(twitchData[i].status);
+      statusCell.append(usersToBuild[i].status);
       tableRow.append(statusCell);
 
       var streamOnlineCell = document.createElement('td');
       if (twitchData[i].stream_type === 'live') {
-        console.log(twitchData[i].stream_type);
-        streamOnlineCell.append(twitchData[i].stream_type.charAt(0).toUpperCase() + twitchData[i].stream_type.slice(1));
+        streamOnlineCell.append(usersToBuild[i].stream_type.charAt(0).toUpperCase() + usersToBuild[i].stream_type.slice(1));
       } else {
         streamOnlineCell.append('Offline');
       }
@@ -87,7 +86,7 @@ function buildUserList() {
 
       var watchCell = document.createElement('td');
       var watchLink = document.createElement('a');
-      watchLink.setAttribute('href', twitchData[i].url);
+      watchLink.setAttribute('href', usersToBuild[i].url);
       watchLink.append('Watch');
       watchCell.append(watchLink);
       tableRow.append(watchCell);
@@ -104,11 +103,6 @@ $(document).ready(function() {
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
   });
-
-
-
-
-
   getChannelInfo()
-  buildUserList();
+  buildUserList(twitchData);
 });
