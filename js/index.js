@@ -40,7 +40,7 @@ function getChannelInfo() {
 
       $.getJSON(createStreamURL(user), function(data) {
         console.log(data);
-        channel.stream_type = data.stream;
+        channel.stream_type = data.stream.stream_type;
       });
       twitchData.push(channel);
     });
