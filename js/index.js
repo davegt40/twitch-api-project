@@ -23,29 +23,40 @@ function createAlert(username) {
 
 function getChannelInfo() {
   twitchUsers.forEach(function(user) {
-    $.getJSON(createChannelURL(user), function(data) {
-      var channel = {
-        'display_name': '',
-        'game': '',
-        'status': '',
-        'url': '',
-        'stream_type': '',
-        'stream_preview_url': ''
+    $.ajax({
+      type: 'GET',
+      url: createChannelURL(user),
+      async: false,
+      dataType: 'json',
+      success: function (data) {
+        var channel = {
+          'display_name': '',
+          'game': '',
+          'status': '',
+          'url': '',
+          'stream_type': '',
+          'stream_preview_url': ''
+        }
+
+        channel.display_name = data.display_name;
+        channel.game = data.game;
+        channel.status = data.status;
+        channel.url = data.url;
+
+        $.ajax({
+          type: 'GET',
+          url: createStreamURL(user),
+          async: false,
+          dataType: 'json',
+          success: function (data) {
+            channel.stream_type = data.stream.stream_type;
+          }
+        });
+        twitchData.push(channel);
       }
-
-      channel.display_name = data.display_name;
-      channel.game = data.game;
-      channel.status = data.status;
-      channel.url = data.url;
-
-      $.getJSON(createStreamURL(user), function(data) {
-        console.log(data);
-        channel.stream_type = data.stream.stream_type;
-      });
-      twitchData.push(channel);
     });
   });
-};
+}
 
 function buildUserList() {
   // wait for objects to be built
@@ -66,8 +77,9 @@ function buildUserList() {
       tableRow.append(statusCell);
 
       var streamOnlineCell = document.createElement('td');
-      if (twitchData[i].stream_type) {
-        streamOnlineCell.append(twitchData[i].stream_type);
+      if (twitchData[i].stream_type === 'live') {
+        console.log(twitchData[i].stream_type);
+        streamOnlineCell.append(twitchData[i].stream_type.charAt(0).toUpperCase() + twitchData[i].stream_type.slice(1));
       } else {
         streamOnlineCell.append('Offline');
       }
@@ -93,7 +105,10 @@ $(document).ready(function() {
     document.getElementById('username').value = null;
   });
 
+
+
+
+
   getChannelInfo()
   buildUserList();
-  console.log(twitchData);
 });
