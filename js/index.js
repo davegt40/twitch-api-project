@@ -97,12 +97,12 @@ function buildUserList(usersToBuild) {
 }
 
 $(document).ready(function() {
+  getChannelInfo()
+  buildUserList(twitchData);
 
   $('#add-user').on('click', function() {
     twitchUsers.push(document.getElementById('username').value);
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
   });
-  getChannelInfo()
-  buildUserList(twitchData);
 });
