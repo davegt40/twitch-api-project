@@ -35,12 +35,12 @@
 
     <div class="dropdown col-lg-4 col-md-4 col-sm-12 text-right">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Status Filter
+        Stream Filter
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <button class="dropdown-item" type="button">All</button>
-        <button class="dropdown-item" type="button">Live</button>
-        <button class="dropdown-item" type="button">Offline</button>
+        <button id="filter-all" class="dropdown-item" type="button">All</button>
+        <button id="filter-live" class="dropdown-item" type="button">Live</button>
+        <button id="filter-offline" class="dropdown-item" type="button">Offline</button>
       </div>
     </div>
   </div>
@@ -51,8 +51,8 @@
         <tr>
           <th scope="col">Username</th>
           <th scope="col">Game</th>
-          <th scope="col">Status</th>
           <th scope="col">Channel Status</th>
+          <th scope="col">Stream Status</th>
           <th scope="col">Watch</th>
         </tr>
       </thead>

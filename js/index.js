@@ -77,7 +77,7 @@ function buildUserList(usersToBuild) {
       tableRow.append(statusCell);
 
       var streamOnlineCell = document.createElement('td');
-      if (twitchData[i].stream_type === 'live') {
+      if (twitchData[i].stream_type == 'live') {
         streamOnlineCell.append(usersToBuild[i].stream_type.charAt(0).toUpperCase() + usersToBuild[i].stream_type.slice(1));
       } else {
         streamOnlineCell.append('Offline');
@@ -96,6 +96,13 @@ function buildUserList(usersToBuild) {
   }, 500);
 }
 
+function clearUserList(element) {
+	var parentNode = document.getElementById(element);
+	while (parentNode.firstChild) {
+	    parentNode.removeChild(parentNode.firstChild);
+	}
+}
+
 $(document).ready(function() {
   getChannelInfo()
   buildUserList(twitchData);
@@ -104,5 +111,33 @@ $(document).ready(function() {
     twitchUsers.push(document.getElementById('username').value);
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
+  });
+
+  $('#filter-all').on('click', function() {
+    clearUserList('user-list');
+    buildUserList(twitchData);
+  });
+
+  $('#filter-live').on('click', function() {
+    clearUserList('user-list');
+    var liveStreams = [];
+    for (var i = 0; i < twitchData.length; i++) {
+      if (twitchData[i].stream_type === 'live') {
+        liveStreams.push(twitchData[i]);
+      }
+    }
+    buildUserList(liveStreams);
+  });
+
+  $('#filter-offline').on('click', function() {
+    clearUserList('user-list');
+    var offlineStreams = [];
+    for (var i = 0; i < twitchData.length; i++) {
+      if (twitchData[i].stream_type != 'live') {
+        offlineStreams.push(twitchData[i]);
+      }
+    }
+    console.log(offlineStreams);
+    buildUserList(offlineStreams);
   });
 });
