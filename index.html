@@ -25,22 +25,21 @@
   </div>
 
 <div class="container main">
-  <div class="row">
-    <div class="input-group col-lg-8 col-md-8 col-sm-12" id="user-input-group">
+  <div class="row" id="form-row">
+    <div class="input-group col-sm-12 text-right" id="user-input-group">
       <input type="text" id="username" minlength="1" required class="form-control" placeholder="Username" aria-label="Username">
       <span class="input-group-btn">
         <button id="add-user" class="btn btn-secondary" type="button">Add User</button>
       </span>
-    </div>
-
-    <div class="dropdown col-lg-4 col-md-4 col-sm-12 text-right">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Stream Filter
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <button id="filter-all" class="dropdown-item" type="button">All</button>
-        <button id="filter-live" class="dropdown-item" type="button">Live</button>
-        <button id="filter-offline" class="dropdown-item" type="button">Offline</button>
+      <div class="dropdown text-right">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Stream Filter
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <button id="filter-all" class="dropdown-item" type="button">All</button>
+          <button id="filter-live" class="dropdown-item" type="button">Live</button>
+          <button id="filter-offline" class="dropdown-item" type="button">Offline</button>
+        </div>
       </div>
     </div>
   </div>
