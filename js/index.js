@@ -124,12 +124,18 @@ $(document).ready(function() {
   getChannelInfo()
   buildUserList(twitchData);
 
+  $('#username').keypress(function(e){
+		if(e.which == 13) { // Enter key pressed
+			$('#add-user').click(); // Trigger search button click event
+		}
+	});
+
   $('#add-user').on('click', function() {
     twitchUsers.push(document.getElementById('username').value);
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
     clearUserList('user-list');
-    
+
     // clear out existing twitch data array
     for (var i = twitchData.length; i > 0 ; i--) {
       twitchData.pop();
