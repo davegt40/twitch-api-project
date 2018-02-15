@@ -14,11 +14,28 @@ function createChannelURL(username) {
 
 function createAlert(username) {
   var alertDiv = document.createElement('div');
-  alertDiv.setAttribute('class', 'alert alert-success');
+  alertDiv.setAttribute('class', 'alert alert-success fade show col-lg-8 col-md-8 col-sm-12 text-center');
   alertDiv.setAttribute('role', 'alert');
   var alertText = document.createTextNode(username + ' added');
+
+  var alertButton = document.createElement('button');
+  alertButton.setAttribute('type', 'button');
+  alertButton.setAttribute('class', 'close');
+  alertButton.setAttribute('data-dismiss', 'alert');
+  alertButton.setAttribute('aria-label', 'Close');
+
+  var alertButtonSpan = document.createElement('span');
+  alertButtonSpan.setAttribute('aria-hidden', 'true');
+
+  var alertButtonSpanText = document.createElement('i');
+  alertButtonSpanText.setAttribute('class', 'fa fa-times');
+
+  alertButtonSpan.append(alertButtonSpanText);
+  alertButton.append(alertButtonSpan);
   alertDiv.append(alertText);
-  document.getElementById('user-input-group').append(alertDiv);
+  alertDiv.append(alertButton);
+
+  document.getElementById('form-row').append(alertDiv);
 }
 
 function getChannelInfo() {
@@ -111,6 +128,15 @@ $(document).ready(function() {
     twitchUsers.push(document.getElementById('username').value);
     createAlert(document.getElementById('username').value);
     document.getElementById('username').value = null;
+    clearUserList('user-list');
+    
+    // clear out existing twitch data array
+    for (var i = twitchData.length; i > 0 ; i--) {
+      twitchData.pop();
+    }
+
+    getChannelInfo();
+    buildUserList(twitchData);
   });
 
   $('#filter-all').on('click', function() {
